@@ -1,10 +1,24 @@
 <script>
-	import Header from './Header.svelte';
 	import './styles.css';
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabase/client';
+	import { user } from '$lib/store/user';
+	onMount(() => {
+		const {
+			data: { subscription }
+		} = supabase.auth.onAuthStateChange(async () => {
+			const { data } = await supabase.auth.getUser();
+			user.set(data.user);
+		});
+
+		return () => {
+			subscription.unsubscribe();
+		};
+	});
+
 </script>
 
 <div class="app">
-	<Header />
 	<main>
 		<slot />
 	</main>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Map from './Map.svelte';
+	import Header from './Header.svelte';
 
 </script>
 
@@ -9,6 +10,7 @@
 </svelte:head>
 
 <section>
+	<Header />
 	<Map/>
 </section>
 
@@ -16,7 +18,6 @@
 	section {
 			display: flex;
 			justify-content: center;
-			align-items: center;
 			width: 100%;
 			height: 100vh;
 	}

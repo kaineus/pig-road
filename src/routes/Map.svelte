@@ -15,8 +15,6 @@
 
 	import { onMount } from 'svelte';
 
-	console.log(PUBLIC_VWORLD_API_KEY);
-
 	onMount(() => {
 		const map = new Map({
 			controls: defaultControls({zoom: false, rotate: false}).extend([

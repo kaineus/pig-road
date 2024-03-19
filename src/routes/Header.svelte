@@ -1,53 +1,37 @@
 <script lang="ts">
-	import github from '$lib/images/github.svg';
 	import logo from '$lib/images/logo.png';
+	import login from '$lib/images/icons/login.png';
 
-	import { supabase } from '$lib/supabase/client';
-	import { onMount } from 'svelte';
+	import NavMenuButton from '$lib/components/buttons/NavMenuButton.svelte';
+	import Avatar from '$lib/components/Avatar.svelte';
+	import { user } from '$lib/store/user';
 
-	let user: any = null;
+	let isSignIn: boolean  = false;
 
-	onMount(async () => {
-		user = await currentUser();
+	user.subscribe((value) => {
+		console.log(value);
+		isSignIn = value !== null
 	});
-
-	async function currentUser() {
-		const { data } = await supabase.auth.getUser();
-		return data.user;
-	}
-
-	async function signInWithGithub() {
-		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider: 'github'
-		});
-	}
-
-	async function signOut() {
-		const { error } = await supabase.auth.signOut();
-		console.error(error);
-		user = null;
-	}
 
 </script>
 
 <header>
+	<a class="logo" href="/">
+		<img src={logo} alt="logo" />
+	</a>
 	<nav>
-		<a href="https://kit.svelte.dev">
-			<picture>
-				<source srcset={logo} type="image/png"/>
-				<img src={logo} alt="PigRoad" />
-			</picture>
-		</a>
+			<NavMenuButton
+				title="메뉴"
+				src={logo}
+				/>
 	</nav>
-	<div class="corner">
-		{#if user}
-			<button on:click={signOut}>
-				<img src={user.user_metadata.avatar_url} alt="avatar" />
-			</button>
+	<div class="auth">
+		{#if isSignIn}
+			<Avatar />
 		{:else}
-			<button on:click={signInWithGithub}>
-				<img src={github} alt="GitHub 로그인" />
-			</button>
+			<a href="/auth/sign-in">
+				<img src={login} alt="로그인"/>
+			</a>
 		{/if}
 	</div>
 </header>
@@ -55,26 +39,51 @@
 <style lang="scss">
 
 	header {
+
 		width: 5rem;
 		background-color: #ffffff;
 		box-shadow: 0 0 0.5rem 0.5rem #0000003b;
 		z-index: 100;
 
-		nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
+		.logo {
+			display: block;
+			width: 100%;
+			padding: .25rem;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
 		}
 
+		nav {
+			flex: 1;
+			border-top: 1px solid #0000003b;
+			border-bottom: 1px solid #0000003b;
+			padding: 1rem 0;
+		}
 
-    button {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      height: 5rem;
-    }
+    .auth {
+			height: 4.5rem;
 
-    IMG {
-      width: 100%;
-      height: 100%;
-    }
+			a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+				height: 100%;
+				padding: 1rem;
+
+				img {
+					width: 90%;
+					height: 90%;
+					object-fit: contain;
+				}
+			}
+		}
 	}
 </style>
