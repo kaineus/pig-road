@@ -33,7 +33,7 @@
 			image: new Icon({
 				anchor: [0.5, 1],
 				scale: 1,
-				src: '/src/lib/images/poi/restaurant.png'
+				src: '/poi/restaurant.png'
 			})
 		});
 
