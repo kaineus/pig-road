@@ -1,22 +1,16 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { supabase } from '$lib/supabase/client';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import type { Provider } from '@supabase/supabase-js';
 
-	const signInWithProvider = async (provider: Provider) => {
-		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider: provider
-		});
-	};
+	import db from '$lib/supabase/db';
 
-	const submitSocialLogin: SubmitFunction = async ({ action, cancel}) => {
+	const submitSocialLogin: SubmitFunction = async ({ action, cancel }) => {
 		switch (action.searchParams.get('provider')) {
 			case 'google':
-				await signInWithProvider('google');
+				await db.signInWithOAuth('google');
 				break;
 			case 'github':
-				await signInWithProvider('github');
+				await db.signInWithOAuth('github');
 				break;
 			default:
 				break;
@@ -24,7 +18,6 @@
 
 		cancel();
 	};
-
 </script>
 
 <main>
