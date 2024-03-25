@@ -1,7 +1,7 @@
 <script lang="ts">
 	import 'ol/ol.css';
 	import { Feature, Map, View } from 'ol';
-	import { defaults as defaultControls, FullScreen } from 'ol/control';
+	import { defaults as defaultControls } from 'ol/control';
 	import { Tile as TileLayer } from 'ol/layer';
 	import { XYZ } from 'ol/source';
 	import { fromLonLat, toLonLat } from 'ol/proj';
@@ -44,7 +44,7 @@
 
 	onMount(async () => {
 		map = new Map({
-			controls: defaultControls({ zoom: false, rotate: false }).extend([new FullScreen()]),
+			controls: defaultControls({ zoom: true, rotate: true }),
 			interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 			layers: [
 				new TileLayer({
